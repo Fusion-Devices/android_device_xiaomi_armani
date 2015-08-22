@@ -97,13 +97,33 @@ TARGET_LIBINIT_DEFINES_FILE := device/xiaomi/armani/init/init_armani.c
 
 # Kernel
 TARGET_KERNEL_SOURCE := kernel/xiaomi/armani
-TARGET_KERNEL_CONFIG := cyanogenmod_armani_defconfig
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=armani user_debug=31 msm_rtb.filter=0x37
+TARGET_KERNEL_CONFIG := fusion_armani_defconfig
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=armani user_debug=31 msm_rtb.filter=0x37 androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_CUSTOM_BOOTIMG_MK := device/xiaomi/armani/mkbootimg.mk
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+
+# Fusion Optimizations
+FUSION_OPT := true
+FUSION_O3 := true
+FUSION_STRICT := false
+FUSION_OFAST := true
+FUSION_KRAIT := false
+FUSION_GRAPHITE := true
+FUSION_PIPE := false
+FUSION_ENABLE_GCCONLY := true
+FLOOP_NEST_OPTIMIZE := true
+FUSION_FFAST_MATH := true
+TARGET_FUSION_ROM := 4.9
+TARGET_FUSION_KERNEL := 4.9-sm
+
+# TWRP
+DEVICE_RESOLUTION := 720x1280
+
+# SaberMod
+-include vendor/fusion/config/sm.mk
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -151,6 +171,11 @@ WIFI_DRIVER_FW_PATH_AP := "ap"
 WIFI_DRIVER_FW_PATH_STA := "sta"
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 TARGET_USES_QCOM_WCNSS_QMI := true
+
+# Default.prop overrides to get adb working at boot
+ADDITIONAL_DEFAULT_PROPERTIES += \
+              ro.secure=0 \
+              ro.adb.secure=0 \
 
 # inherit from the proprietary version
 -include vendor/xiaomi/armani/BoardConfigVendor.mk
